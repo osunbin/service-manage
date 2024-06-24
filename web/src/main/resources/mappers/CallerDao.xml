@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.CallerDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.Caller">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="callerKey" property="callerKey" jdbcType="VARCHAR"/>
+        <result column="callerName" property="callerName" jdbcType="VARCHAR"/>
+        <result column="owners" property="owners" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, callerKey, callerName, owners,  description,  createTime, updateTime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/> from t_caller where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_caller
+    </select>
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_caller
+        where callerkey = #{callerkey,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_caller
+        where callername = #{callername,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_caller
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bin.webmonitor.repository.domain.Caller">
+        INSERT INTO t_caller (<include refid="Base_Column_List"/>)
+        VALUES
+            (#{id,jdbcType=INTEGER}, #{callerkey,jdbcType=VARCHAR}, #{callername,jdbcType=VARCHAR},
+             #{owners,jdbcType=VARCHAR},  #{description,jdbcType=VARCHAR},
+             #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bin.webmonitor.repository.domain.Caller" useGeneratedKeys="true" keyProperty="id">
+        insert into t_caller
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="callerkey != null">
+                callerKey,
+            </if>
+            <if test="callername != null">
+                callerName,
+            </if>
+            <if test="owners != null">
+                owners,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="updatetime != null">
+                updateTime,
+            </if>
+            createTime
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="callerkey != null">
+                #{callerkey,jdbcType=VARCHAR},
+            </if>
+            <if test="callername != null">
+                #{callername,jdbcType=VARCHAR},
+            </if>
+            <if test="owners != null">
+                #{owners,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.webmonitor.repository.domain.Caller">
+        update t_caller
+        <set>
+            <if test="callerkey != null">
+                callerKey = #{callerkey,jdbcType=VARCHAR},
+            </if>
+            <if test="callername != null">
+                callerName = #{callername,jdbcType=VARCHAR},
+            </if>
+            <if test="owners != null">
+                owners = #{owners,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bin.webmonitor.repository.domain.Caller">
+        UPDATE t_caller
+        SET callerKey   = #{callerkey,jdbcType=VARCHAR},
+            callerName  = #{callername,jdbcType=VARCHAR},
+            owners      = #{owners,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            createTime  = #{createtime,jdbcType=TIMESTAMP},
+            updateTime  = #{updatetime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.bin.webmonitor.repository.domain.Caller">
+        select count(*) from t_caller
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="callerkey != null">
+                and callerKey = #{callerkey,jdbcType=VARCHAR}
+            </if>
+            <if test="callername != null and callername != ''">
+                and callerName LIKE "%"#{callername,jdbcType=VARCHAR}"%" collate `utf8_unicode_ci`
+            </if>
+            <if test="owners != null and owners != ''">
+                and owners LIKE "%"#{owners,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="description != null">
+                and description = #{description,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_caller where 1 = 1
+        <if test="param1.id != null">
+            and id = #{param1.id,jdbcType=INTEGER}
+        </if>
+        <if test="param1.callerkey != null">
+            and callerKey = #{param1.callerkey,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.callername != null and param1.callername != ''">
+            and callerName LIKE "%"#{param1.callername,jdbcType=VARCHAR}"%" collate `utf8_unicode_ci`
+        </if>
+        <if test="param1.owners != null and param1.owners != ''">
+            and owners LIKE "%"#{param1.owners,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="param1.description != null">
+            and description = #{param1.description,jdbcType=VARCHAR}
+        </if>
+        <if test="null!= param2 and param2.sort != null">
+            order by
+            <foreach collection="param2.sort" item="order" separator=",">
+                ${order.property} ${order.direction}
+            </foreach>
+        </if>
+        <if test="null!= param2 and param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bin.webmonitor.repository.dao.CircuitBreakConfigDao">
+    <resultMap id="circuitBreakConfigResultMap" type="com.bin.webmonitor.repository.domain.CircuitBreakConfigPo">
+        <id column="id" property="id"/>
+        <result column="cid" property="cid"/>
+        <result column="sid" property="sid"/>
+        <result column="fid" property="fid"/>
+
+        <result column="enabled" property="enabled"/>
+        <result column="force_opened" property="forceOpened"/>
+        <result column="force_closed" property="forceClosed"/>
+        <result column="slide_window_in_seconds" property="slideWindowInSeconds"/>
+        <result column="request_volume_threshold" property="requestVolumeThreshold"/>
+        <result column="error_threshold_percentage" property="errorThresholdPercentage"/>
+        <result column="sleep_window_in_milliseconds" property="sleepWindowInMilliseconds"/>
+
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectFields" >
+        id, cid, sid, fid, enabled, force_opened, force_closed, slide_window_in_seconds, request_volume_threshold, error_threshold_percentage, sleep_window_in_milliseconds, create_time, update_time
+    </sql>
+
+    <select id="queryCircuitBreakConfigById" resultMap="circuitBreakConfigResultMap">
+        SELECT
+            <include refid="selectFields"/>
+        FROM t_circuit_break_config
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryCircuitBreakConfigs" resultMap="circuitBreakConfigResultMap">
+        SELECT
+            <include refid="selectFields"/>
+        FROM t_circuit_break_config
+        WHERE 1=1
+        <if test="cid != null">
+            and cid = #{cid}
+        </if>
+        <if test="sid != null">
+        and sid = #{sid}
+        </if>
+        <if test="fid != null">
+        and fid = #{fid}
+        </if>
+    </select>
+
+    <update id="updateById">
+        UPDATE t_circuit_break_config
+        <set>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+            <if test="forceOpened != null">
+                force_opened = #{forceOpened},
+            </if>
+            <if test="forceClosed != null">
+                force_closed = #{forceClosed},
+            </if>
+            <if test="slideWindowInSeconds != null">
+                slide_window_in_seconds = #{slideWindowInSeconds},
+            </if>
+            <if test="requestVolumeThreshold != null">
+                request_volume_threshold = #{requestVolumeThreshold},
+            </if>
+            <if test="errorThresholdPercentage != null">
+                error_threshold_percentage = #{errorThresholdPercentage},
+            </if>
+            <if test="sleepWindowInMilliseconds != null">
+                sleep_window_in_milliseconds = #{sleepWindowInMilliseconds},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_circuit_break_config
+        (
+            cid,
+            sid,
+            fid,
+            enabled,
+            force_opened,
+            force_closed,
+            slide_window_in_seconds,
+            request_volume_threshold,
+            error_threshold_percentage,
+            sleep_window_in_milliseconds,
+            create_time
+        )VALUES(
+            #{cid},
+            #{sid},
+            #{fid},
+            #{enabled},
+            #{forceOpened},
+            #{forceClosed},
+            #{slideWindowInSeconds},
+            #{requestVolumeThreshold},
+            #{errorThresholdPercentage},
+            #{sleepWindowInMilliseconds},
+            now()
+        )
+        ON DUPLICATE KEY UPDATE
+            enabled=VALUES(enabled),
+            force_opened=VALUES(force_opened),
+            force_closed=VALUES(force_closed),
+            slide_window_in_seconds=VALUES(slide_window_in_seconds),
+            request_volume_threshold=VALUES(request_volume_threshold),
+            error_threshold_percentage=VALUES(error_threshold_percentage),
+            sleep_window_in_milliseconds=VALUES(sleep_window_in_milliseconds)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM t_circuit_break_config WHERE id = #{id}
+    </delete>
+
+</mapper>

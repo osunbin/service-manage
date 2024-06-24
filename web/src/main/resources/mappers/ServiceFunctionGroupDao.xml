@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.ServiceFunctionGroupDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.ServiceFunctionGroup">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sid" property="sid" jdbcType="INTEGER"/>
+        <result column="groupName" property="groupName" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sid, groupName, createtime, updatetime
+    </sql>
+    
+	<insert id="insert">
+		insert into t_servicefunctiongroup(sid, groupName, createtime, updatetime) values(#{sid}, #{groupName}, now(),now())
+    </insert>
+    
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_group WHERE id = #{id} 
+    </select>
+    <select id="selectBySid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_group WHERE sid = #{sid} 
+    </select>
+    
+    <delete id="deleteById" >
+    	delete from t_servicefunctiongroup where  id = #{id} 
+    </delete>
+    
+    <update id="updateGroupName">
+    	update t_servicefunctiongroup set groupName = #{groupName} where id = #{id}
+    </update>
+</mapper>
