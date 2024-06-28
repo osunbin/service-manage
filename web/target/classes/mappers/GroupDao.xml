@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.GroupDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.Group">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sid" property="sid" jdbcType="INTEGER"/>
+        <result column="groupName" property="groupName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, sid, groupName, status, createtime, updatetime
+    </sql>
+    
+	<insert id="insert" parameterType="com.bin.webmonitor.repository.domain.Group" useGeneratedKeys="false">
+		insert into t_group(sid, groupName, status, createtime, updatetime) values(#{sid}, #{groupName}, #{status}, now(),now())
+    </insert>
+    
+    <select id="selectById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_group WHERE id = #{id} 
+    </select>
+    <select id="selectBySid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_group WHERE sid = #{sid} 
+    </select>
+    <select id="selectBySidAndGroupName" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_group WHERE sid = #{sid} AND groupName = #{groupName} 
+    </select>
+    
+    <delete id="delete" >
+    	delete from t_group where  id = #{id} 
+    </delete>
+    
+    <update id="updateGroupTime">
+    	update t_group set updateTime = now() where id = #{id}
+    </update>
+    <update id="updateStatus">
+    	update t_group set status = #{status} where id = #{id}
+    </update>
+</mapper>

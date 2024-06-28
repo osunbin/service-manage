@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.ServiceDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.ServiceInstance">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="serviceName" jdbcType="VARCHAR" property="serviceName" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="owners" jdbcType="VARCHAR" property="owners" />
+        <result column="tcpPort" jdbcType="INTEGER" property="tcpPort" />
+        <result column="telnetPort" jdbcType="INTEGER" property="telnetPort" />
+        <result column="allowServiceGranularity" jdbcType="BOOLEAN" property="allowServiceGranularity" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, serviceName,  description, owners, tcpPort, telnetPort,  allowServiceGranularity, createTime, updateTime
+    </sql>
+
+    <insert id="insert" parameterType="com.bin.webmonitor.repository.domain.ServiceInstance">
+       insert into t_service(serviceName,  description, owners, tcpPort, telnetPort,  allowServiceGranularity, createTime, updateTime)
+       values(?,?, ?,?,?,?,?,?,now(),now())
+    </insert>
+    
+    <update id="updateService" parameterType="com.bin.webmonitor.repository.domain.ServiceInstance">
+    	update t_service set   description=#{description},  owners=#{owners}, tcpPort=#{tcpPort},
+    		telnetPort=#{telnetPort}, allowServiceGranularity=#{allowServiceGranularity},  updateTime=now() where id=#{id}
+    </update>
+
+
+    <delete id="deleteService">
+    	delete from t_service where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM t_service
+    </select>
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM t_service WHERE id = #{id} 
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM t_service WHERE servicename = #{servicename} 
+    </select>
+    <select id="serviceList" resultMap="BaseResultMap" >
+        SELECT <include refid="Base_Column_List"/> FROM t_service where 1=1 
+		<if test="param1.serviceName != null">
+		    and serviceName like CONCAT("%",#{param1.serviceName},"%")
+		</if>
+		<if test="param1.tcpPort != null">
+		    and tcpPort = #{param1.tcpPort}
+		</if>
+		<if test="param1.owners != null">
+		    and owners like CONCAT("%",#{param1.owners},"%")
+		</if>
+		order by createTime
+        <if test="null!= param2 and param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+    <select id="serviceListForTran" resultMap="BaseResultMap" >
+        SELECT <include refid="Base_Column_List"/> FROM t_service where 1=1 
+		<if test="param1.serviceName != null">
+		    and serviceName like CONCAT("%",#{param1.serviceName},"%")
+		</if>
+		order by updateTime desc 
+        <if test="null!= param2 and param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+    <select id="countServiceList" resultType="int" parameterType="com.bin.webmonitor.repository.domain.ServiceInstance">
+        select count(*) from t_service where 1=1 
+		<if test="serviceName != null">
+		    and serviceName like CONCAT("%",#{serviceName},"%")
+		</if>
+		<if test="tcpPort != null">
+		    and tcpPort = #{tcpPort}
+		</if>
+		<if test="owners != null">
+		    and owners like CONCAT("%",#{owners},"%")
+		</if>
+    </select>
+    <select id="countServiceListForTran" resultType="int" parameterType="com.bin.webmonitor.repository.domain.ServiceInstance">
+        select count(*) from t_service where 1=1 
+		<if test="serviceName != null">
+		    and serviceName like CONCAT("%",#{serviceName},"%")
+		</if>
+    </select>
+</mapper>

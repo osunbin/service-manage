@@ -50,20 +50,20 @@ public class ServiceNodeVO extends StrJson implements Comparable<ServiceNodeVO> 
         this.tcpPort = node.getPort();
         this.weight = node.getWeight();
         this.pid = node.getPid();
-        this.systemEnv = node.getSystemEnvType().getValue();
+        this.systemEnv = node.getSystemEnvType();
         
         switch (node.getServerType()) {
-            case VM:
+            case "VM":
                 this.serverType = "虚拟机";
                 break;
-            case SERVER:
+            case "SERVER":
                 this.serverType = "物理机";
                 break;
-            case DOCKER:
-                this.serverType = "Docker容器";
+            case "DOCKER":
+                this.serverType = "Docker";
                 break;
             default:
-                this.serverType = "Docker容器";
+                this.serverType = "Docker";
                 break;
         }
         

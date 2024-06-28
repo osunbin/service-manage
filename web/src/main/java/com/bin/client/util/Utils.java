@@ -184,4 +184,11 @@ public class Utils {
             return paraName;
         }
     }
+
+
+    public static int getNumCpu() {
+      return   Runtime.getRuntime().availableProcessors();
+    }
+
+
 }

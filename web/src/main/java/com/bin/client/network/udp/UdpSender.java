@@ -2,7 +2,7 @@ package com.bin.client.network.udp;
 
 import com.bin.collector.request.BaseData;
 import com.bin.collector.request.CircuitBreakEventData;
-import com.bin.collector.request.CircuitBreakMonitorData;
+import com.bin.collector.request.CircuitBreakMonitorDataRequest;
 import com.bin.webmonitor.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,11 +63,11 @@ public class UdpSender {
             return;
         }
 
-         if (request instanceof CircuitBreakMonitorData) { // 熔断监控数据
-            CircuitBreakMonitorData circuitBreakMonitorDataRequest = (CircuitBreakMonitorData)request;
+         if (request instanceof CircuitBreakMonitorDataRequest) { // 熔断监控数据
+            CircuitBreakMonitorDataRequest circuitBreakMonitorDataRequest = (CircuitBreakMonitorDataRequest)request;
             // 分包逻辑
-            List<CircuitBreakMonitorData> requestList = circuitBreakMonitorDataRequest.split();
-            for (CircuitBreakMonitorData tmp : requestList) {
+            List<CircuitBreakMonitorDataRequest> requestList = circuitBreakMonitorDataRequest.split();
+            for (CircuitBreakMonitorDataRequest tmp : requestList) {
                 this.retryAckSend.send(tmp.toBytes(),  true);
             }
         } else if (request instanceof CircuitBreakEventData) { // 熔断事件

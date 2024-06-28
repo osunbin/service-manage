@@ -4,7 +4,7 @@ import com.bin.collector.CircuitBreakEventCollector;
 import com.bin.collector.CircuitBreakMonitorCollector;
 import com.bin.collector.ServiceFunctionsCollector;
 import com.bin.collector.request.CircuitBreakEventData;
-import com.bin.collector.request.CircuitBreakMonitorData;
+import com.bin.collector.request.CircuitBreakMonitorDataRequest;
 import com.bin.collector.request.ServiceFunctions;
 import com.bin.webmonitor.enums.ReportType;
 import io.netty.channel.ChannelHandlerContext;
@@ -54,7 +54,7 @@ public class UdpMessageHandler extends SimpleChannelInboundHandler<DatagramPacke
                 serviceFunctionsProcessor.collect(sfr, ip);
             } else if (requestType == ReportType.circuitBreakMonitorData.getValue()) {
                 // 熔断监控数据
-                CircuitBreakMonitorData circuitBreakMonitorData = new CircuitBreakMonitorData().toRequest(request);
+                CircuitBreakMonitorDataRequest circuitBreakMonitorData = new CircuitBreakMonitorDataRequest().toRequest(request);
                 circuitBreakMonitorCollector.collect(circuitBreakMonitorData, ip);
             } else if (requestType == ReportType.circuitBreakEventData.getValue()) {
                 // 熔断事件

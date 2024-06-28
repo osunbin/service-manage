@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.ServiceNodeGroupDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.ServiceNodeGroup">
+        <id column="gid" property="gid" jdbcType="INTEGER"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        gid,ip,createTime,updateTime
+    </sql>
+    
+   <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false">
+		insert into t_nodegroup (<include refid="Base_Column_List"/>) values
+		<foreach collection="serviceNodeGroups" item="item" index="index" separator=",">
+			(
+				#{item.gid},
+				#{item.ip},
+				now(),
+				now()
+			)
+	     </foreach>
+    </insert>
+    
+    <select id="selectByGid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_nodegroup WHERE gid = #{gid} 
+    </select>
+    <select id="selectByIp" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_nodegroup WHERE ip = #{ip} 
+    </select>
+    <select id="selectBySid" resultMap="BaseResultMap">
+        select n.* from t_nodegroup n join t_group g on n.gid=g.id and sid = #{sid}
+    </select>
+    <select id="selectBySidIp" resultMap="BaseResultMap">
+        select n.* from t_nodegroup n join t_group g on n.gid=g.id and sid = #{sid} and n.ip = #{ip} 
+    </select>
+    <select id="countBySidIp" resultMap="BaseResultMap">
+        select count(*) from t_nodegroup where gid in (select id from t_group where sid = #{sid}) and ip = #{ip} 
+    </select>
+    
+    <delete id="deleteByGid" >
+    	delete from t_nodegroup where gid = #{gid} 
+    </delete>
+    <delete id="deleteBatch" >
+    	delete from t_nodegroup where 
+		<foreach collection="list" item="item" index="no" open="(" separator="or" close=")">
+			gid = #{item.gid} and ip = #{item.ip}
+		</foreach>
+    </delete>
+    
+</mapper>

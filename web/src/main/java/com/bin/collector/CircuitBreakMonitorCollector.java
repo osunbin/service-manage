@@ -1,6 +1,6 @@
 package com.bin.collector;
 
-import com.bin.collector.request.CircuitBreakMonitorData;
+import com.bin.collector.request.CircuitBreakMonitorDataRequest;
 import com.bin.webmonitor.repository.cache.LocalCaller;
 import com.bin.webmonitor.repository.cache.LocalFunction;
 import com.bin.webmonitor.repository.cache.LocalService;
@@ -35,7 +35,7 @@ public class CircuitBreakMonitorCollector {
     CircuitBreakMonitorDao circuitBreakMonitorDao;
 
 
-    public void collect(CircuitBreakMonitorData request, String ip) {
+    public void collect(CircuitBreakMonitorDataRequest request, String ip) {
         logger.debug("op=start_process,request={},ip={}", request, ip);
         Caller caller = localCaller.getByCallerKey(request.getCallerKey());
 
@@ -43,7 +43,7 @@ public class CircuitBreakMonitorCollector {
                 new ArrayList<>(request.getCircuitBreakMonitorDatas().size());
 
         // 1.类型转换
-        for (CircuitBreakMonitorData.CircuitBreakMonitorData circuitBreakMonitorData : request.getCircuitBreakMonitorDatas()) {
+        for (CircuitBreakMonitorDataRequest.CircuitBreakMonitorData circuitBreakMonitorData : request.getCircuitBreakMonitorDatas()) {
             try {
                 ServiceInstance service = localService.getByName(circuitBreakMonitorData.getService());
                 ServiceFunction serviceFunction =

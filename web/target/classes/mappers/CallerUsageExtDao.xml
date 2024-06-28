@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bin.webmonitor.repository.da.CallerUsageExtDao">
+    <resultMap id="callerUsageExtResultMap" type="com.bin.webmonitor.repository.domain.CallerUsageExt">
+        <id column="id" property="id"/>
+        <result column="cid" property="cid"/>
+        <result column="sid" property="sid"/>
+        <result column="config_type" property="configType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectFields" >
+        id, cid, sid, config_type, create_time, update_time
+    </sql>
+
+    <select id="queryById" resultMap="callerUsageExtResultMap">
+        SELECT
+            <include refid="selectFields"/>
+        FROM t_calleruseageext
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryByCidSid" resultMap="callerUsageExtResultMap">
+        SELECT
+        <include refid="selectFields"/>
+        FROM t_calleruseageext
+        WHERE cid = #{cid} AND sid = #{sid}
+    </select>
+
+    <select id="queryByCidOrSid" resultMap="callerUsageExtResultMap">
+        SELECT
+        <include refid="selectFields"/>
+        FROM t_calleruseageext
+        WHERE 1=1
+        <if test="cid != null">
+            AND cid = #{cid}
+        </if>
+        <if test="sid != null">
+            AND sid = #{sid}
+        </if>
+    </select>
+
+    <select id="queryByConfigType" resultMap="callerUsageExtResultMap">
+        SELECT
+        <include refid="selectFields"/>
+        FROM t_calleruseageext
+        WHERE config_type = #{configType}
+    </select>
+
+    <update id="updateByCidSid">
+        UPDATE t_calleruseageext
+        <set>
+            <if test="configType != null">
+                config_type = #{configType},
+                update_time=now()
+            </if>
+        </set>
+        WHERE cid = #{cid} AND sid = #{sid}
+    </update>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_calleruseageext
+        (
+            cid,
+            sid,
+            config_type,
+            create_time
+        )VALUES(
+            #{cid},
+            #{sid},
+            #{configType},
+            now()
+        )
+    </insert>
+
+    <insert id="batchSave" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_calleruseageext
+        (
+            cid,
+            sid,
+            config_type,
+            create_time
+        )VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.cid},
+            #{item.sid},
+            #{item.configType},
+            now()
+        )
+        </foreach>
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM t_calleruseageext WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByCidSid">
+        DELETE FROM t_calleruseageext WHERE cid = #{cid} AND sid = #{sid}
+    </delete>
+
+
+</mapper>

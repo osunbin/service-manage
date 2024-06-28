@@ -7,7 +7,7 @@ import com.bin.client.circuitbreak.CircuitBreakConfigChangeListener;
 import com.bin.client.degrade.MetricTimeWindow.MetricEventType;
 import com.bin.client.util.MethodUtils;
 import com.bin.collector.request.CircuitBreakEventData.EventType;
-import com.bin.collector.request.CircuitBreakMonitorData.CircuitBreakMonitorData;
+import com.bin.collector.request.CircuitBreakMonitorDataRequest.CircuitBreakMonitorData;
 import com.bin.webmonitor.model.CallerCircuitBreakConfigMeta.CircuitBreakConfigMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

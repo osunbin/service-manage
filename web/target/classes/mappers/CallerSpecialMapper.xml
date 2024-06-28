@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.CallerSpecialDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+        <result column="sid" property="sid" jdbcType="INTEGER"/>
+        <result column="cips" property="cips" jdbcType="VARCHAR"/>
+        <result column="attrJson" property="attrJson" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, cid, sid, cips, attrJson, createTime, updateTime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/> from t_callerspecial where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_callerspecial WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        INSERT INTO t_callerspecial (<include refid="Base_Column_List"/>)
+        VALUES (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER},
+                #{cips,jdbcType=VARCHAR}, #{attrjson,jdbcType=VARCHAR},
+                #{createtime,jdbcType=TIMESTAMP},
+                #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        insert into t_callerspecial
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="cips != null">
+                cips,
+            </if>
+            <if test="attrjson != null">
+                attrJson,
+            </if>
+            <if test="createtime != null">
+            </if>
+            createTime,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="cips != null">
+                #{cips,jdbcType=VARCHAR},
+            </if>
+            <if test="attrjson != null">
+                #{attrjson,jdbcType=VARCHAR},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        update t_callerspecial
+        <set>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                sid = #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="cips != null">
+                cips = #{cips,jdbcType=VARCHAR},
+            </if>
+            <if test="attrjson != null">
+                attrJson = #{attrjson,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            updateTime = now()
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        UPDATE t_callerspecial
+        SET cid        = #{cid,jdbcType=INTEGER},
+            sid        = #{sid,jdbcType=INTEGER},
+            cips       = #{cips,jdbcType=VARCHAR},
+            attrJson   = #{attrjson,jdbcType=VARCHAR},
+            createTime = #{createtime,jdbcType=TIMESTAMP},
+            updateTime = #{updatetime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.bin.webmonitor.repository.domain.CallerSpecialAttr">
+        select count(*) from t_callerspecial
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="cid != null">
+                and cid = #{cid,jdbcType=INTEGER}
+            </if>
+            <if test="sid != null">
+                and sid = #{sid,jdbcType=INTEGER}
+            </if>
+            <if test="cips != null">
+                and cips = #{cips,jdbcType=VARCHAR}
+            </if>
+            <if test="attrjson != null">
+                and attrJson = #{attrjson,jdbcType=VARCHAR}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_callerspecial where 1 = 1
+        <if test="param1.id != null">
+            and id = #{param1.id,jdbcType=INTEGER}
+        </if>
+        <if test="param1.cid != null">
+            and cid = #{param1.cid,jdbcType=INTEGER}
+        </if>
+        <if test="param1.sid != null">
+            and sid = #{param1.sid,jdbcType=INTEGER}
+        </if>
+        <if test="param1.cips != null">
+            and cips = #{param1.cips,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.attrjson != null">
+            and attrJson = #{param1.attrjson,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.createtime != null">
+            and createTime = #{param1.createtime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="param1.updatetime != null">
+            and updateTime = #{param1.updatetime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null!= param2 and param2.sort != null">
+            order by
+            <foreach collection="param2.sort" item="order" separator=",">
+                ${order.property} ${order.direction}
+            </foreach>
+        </if>
+        <if test="null!= param2 and param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+</mapper>

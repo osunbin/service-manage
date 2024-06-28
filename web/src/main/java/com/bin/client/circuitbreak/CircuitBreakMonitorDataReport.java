@@ -1,7 +1,7 @@
 package com.bin.client.circuitbreak;
 
 import com.bin.client.network.udp.UdpSender;
-import com.bin.collector.request.CircuitBreakMonitorData;
+import com.bin.collector.request.CircuitBreakMonitorDataRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +39,8 @@ public class CircuitBreakMonitorDataReport {
      * @param time 时间点
      * @param circuitBreakMonitorDatas 熔断监控数据列表
      */
-    public void report(long time, List<CircuitBreakMonitorData.CircuitBreakMonitorData> circuitBreakMonitorDatas) {
-        CircuitBreakMonitorData circuitBreakMonitorDataRequest = new CircuitBreakMonitorData(time, callerKey, circuitBreakMonitorDatas);
+    public void report(long time, List<CircuitBreakMonitorDataRequest.CircuitBreakMonitorData> circuitBreakMonitorDatas) {
+        CircuitBreakMonitorDataRequest circuitBreakMonitorDataRequest = new CircuitBreakMonitorDataRequest(time, callerKey, circuitBreakMonitorDatas);
         UdpSender.fluxDataAndServiceFunctionSender.send(circuitBreakMonitorDataRequest);
         logger.debug("[ARCH_SDK_end_process_circuit_break_monitor_data]callerKey={},time={},circuitBreakMonitorDatas={}", callerKey, time, circuitBreakMonitorDatas);
     }

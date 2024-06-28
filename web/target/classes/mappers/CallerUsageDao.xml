@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bin.webmonitor.repository.dao.CallerUsageDao">
+    <resultMap id="BaseResultMap" type="com.bin.webmonitor.repository.domain.CallerUseage">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="cid" property="cid" jdbcType="INTEGER"/>
+        <result column="sid" property="sid" jdbcType="INTEGER"/>
+        <result column="gid" property="gid" jdbcType="INTEGER"/>
+        <result column="quantity" property="quantity" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="socketBufferSize" property="socketBufferSize" jdbcType="INTEGER"/>
+        <result column="socketMinPoolSize" property="socketMinPoolSize" jdbcType="INTEGER"/>
+        <result column="socketMaxPoolSize" property="socketNagle" jdbcType="INTEGER"/>
+        <result column="socketNagle" property="socketNagle" jdbcType="VARCHAR"/>
+        <result column="socketAutoShrink" property="socketAutoShrink" jdbcType="VARCHAR"/>
+        <result column="socketSendTimeout" property="socketSendTimeout" jdbcType="VARCHAR"/>
+        <result column="socketReceiveTimeout" property="socketReceiveTimeout" jdbcType="VARCHAR"/>
+        <result column="socketWaitTimeout" property="socketWaitTimeout" jdbcType="VARCHAR"/>
+        <result column="socketReadWriteTimeout" property="socketReadWriteTimeout" jdbcType="VARCHAR"/>
+        <result column="socketMaxPackageSize" property="socketMaxPackageSize" jdbcType="INTEGER"/>
+        <result column="socketProtected" property="socketProtected" jdbcType="INTEGER"/>
+        <result column="socketReconnectTime" property="socketReconnectTime" jdbcType="VARCHAR"/>
+        <result column="socketRecvBufferSize" property="socketRecvBufferSize" jdbcType="INTEGER"/>
+        <result column="socketSendBufferSize" property="socketSendBufferSize" jdbcType="INTEGER"/>
+        <result column="socketConnectionTimeout" property="socketConnectionTimeout" jdbcType="VARCHAR"/>
+        <result column="protocolSerialize" property="protocolSerialize" jdbcType="VARCHAR"/>
+        <result column="protocolEncoder" property="protocolEncoder" jdbcType="VARCHAR"/>
+        <result column="protocolCompressType" property="protocolCompressType" jdbcType="VARCHAR"/>
+        <result column="protocolProtocolType" property="protocolProtocolType" jdbcType="VARCHAR"/>
+        <result column="serverDeadTimeout" property="serverDeadTimeout" jdbcType="VARCHAR"/>
+        <result column="degrade" property="degrade" jdbcType="TINYINT"/>
+        <result column="serviceMaxThreadCount" property="serviceMaxThreadCount" jdbcType="INTEGER"/>
+        <result column="reject" property="reject" jdbcType="TINYINT"/>
+        <result column="granularity" property="granularity" jdbcType="TINYINT"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, cid, sid, gid, quantity, description, socketBufferSize, socketMinPoolSize,
+        socketMaxPoolSize, socketNagle, socketAutoShrink, socketSendTimeout, socketReceiveTimeout,
+        socketWaitTimeout, socketReadWriteTimeout, socketMaxPackageSize, socketProtected,
+        socketReconnectTime, socketRecvBufferSize, socketSendBufferSize, socketConnectionTimeout,
+        protocolSerialize, protocolEncoder, protocolCompressType, protocolProtocolType, serverDeadTimeout,
+        degrade, serviceMaxThreadCount, reject, granularity, createTime, updateTime
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_calleruseage
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_calleruseage
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.bin.webmonitor.repository.domain.CallerUseage">
+        INSERT IGNORE INTO t_calleruseage (cid, sid, gid, quantity,
+                                    description, socketBufferSize, socketMinPoolSize,
+                                    socketMaxPoolSize, socketNagle, socketAutoShrink,
+                                    socketSendTimeout, socketReceiveTimeout,
+                                    socketWaitTimeout, socketReadWriteTimeout,
+                                    socketMaxPackageSize, socketProtected,
+                                    socketReconnectTime, socketRecvBufferSize,
+                                    socketSendBufferSize, socketConnectionTimeout,
+                                    protocolSerialize, protocolEncoder, protocolCompressType,
+                                    protocolProtocolType, serverDeadTimeout,
+                                    degrade, serviceMaxThreadCount, reject, granularity,
+                                    createTime, updateTime)
+        VALUES (#{cid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER},
+                                        #{quantity,jdbcType=INTEGER},
+                                        #{description,jdbcType=VARCHAR},
+                                        #{socketbuffersize,jdbcType=INTEGER},
+                                        #{socketminpoolsize,jdbcType=INTEGER},
+                                        #{socketmaxpoolsize,jdbcType=INTEGER},
+                                        #{socketnagle,jdbcType=VARCHAR},
+            #{socketautoshrink,jdbcType=VARCHAR},
+            #{socketsendtimeout,jdbcType=VARCHAR}, #{socketreceivetimeout,jdbcType=VARCHAR},
+            #{socketwaittimeout,jdbcType=VARCHAR}, #{socketreadwritetimeout,jdbcType=VARCHAR},
+            #{socketmaxpackagesize,jdbcType=INTEGER}, #{socketprotected,jdbcType=INTEGER},
+            #{socketreconnecttime,jdbcType=VARCHAR}, #{socketrecvbuffersize,jdbcType=INTEGER},
+            #{socketsendbuffersize,jdbcType=INTEGER}, #{socketconnectiontimeout,jdbcType=VARCHAR},
+                                                      #{protocolserialize,jdbcType=VARCHAR},
+                                                      #{protocolencoder,jdbcType=VARCHAR},
+                                                      #{protocolcompresstype,jdbcType=VARCHAR},
+                                                      #{protocolprotocoltype,jdbcType=VARCHAR},
+                                                      #{serverdeadtimeout,jdbcType=VARCHAR},
+                                                      #{degrade,jdbcType=TINYINT},
+                                                      #{servicemaxthreadcount,jdbcType=INTEGER},
+                                                      #{reject,jdbcType=TINYINT},
+                                                      #{granularity,jdbcType=TINYINT},
+                                                      #{createtime,jdbcType=TIMESTAMP},
+                #{updatetime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.bin.webmonitor.repository.domain.CallerUseage">
+        insert into t_calleruseage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="gid != null">
+                gid,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="socketbuffersize != null">
+                socketBufferSize,
+            </if>
+            <if test="socketminpoolsize != null">
+                socketMinPoolSize,
+            </if>
+            <if test="socketmaxpoolsize != null">
+                socketMaxPoolSize,
+            </if>
+            <if test="socketnagle != null">
+                socketNagle,
+            </if>
+            <if test="socketautoshrink != null">
+                socketAutoShrink,
+            </if>
+            <if test="socketsendtimeout != null">
+                socketSendTimeout,
+            </if>
+            <if test="socketreceivetimeout != null">
+                socketReceiveTimeout,
+            </if>
+            <if test="socketwaittimeout != null">
+                socketWaitTimeout,
+            </if>
+            <if test="socketreadwritetimeout != null">
+                socketReadWriteTimeout,
+            </if>
+            <if test="socketmaxpackagesize != null">
+                socketMaxPackageSize,
+            </if>
+            <if test="socketprotected != null">
+                socketProtected,
+            </if>
+            <if test="socketreconnecttime != null">
+                socketReconnectTime,
+            </if>
+            <if test="socketrecvbuffersize != null">
+                socketRecvBufferSize,
+            </if>
+            <if test="socketsendbuffersize != null">
+                socketSendBufferSize,
+            </if>
+            <if test="socketconnectiontimeout != null">
+                socketConnectionTimeout,
+            </if>
+            <if test="protocolserialize != null">
+                protocolSerialize,
+            </if>
+            <if test="protocolencoder != null">
+                protocolEncoder,
+            </if>
+            <if test="protocolcompresstype != null">
+                protocolCompressType,
+            </if>
+            <if test="protocolprotocoltype != null">
+                protocolProtocolType,
+            </if>
+            <if test="serverdeadtimeout != null">
+                serverDeadTimeout,
+            </if>
+            <if test="degrade != null">
+                degrade,
+            </if>
+            <if test="servicemaxthreadcount != null">
+                serviceMaxThreadCount,
+            </if>
+            <if test="reject != null">
+                reject,
+            </if>
+            <if test="granularity != null">
+                granularity,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="updatetime != null">
+                updateTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="gid != null">
+                #{gid,jdbcType=INTEGER},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="socketbuffersize != null">
+                #{socketbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketminpoolsize != null">
+                #{socketminpoolsize,jdbcType=INTEGER},
+            </if>
+            <if test="socketmaxpoolsize != null">
+                #{socketmaxpoolsize,jdbcType=INTEGER},
+            </if>
+            <if test="socketnagle != null">
+                #{socketnagle,jdbcType=VARCHAR},
+            </if>
+            <if test="socketautoshrink != null">
+                #{socketautoshrink,jdbcType=VARCHAR},
+            </if>
+            <if test="socketsendtimeout != null">
+                #{socketsendtimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketreceivetimeout != null">
+                #{socketreceivetimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketwaittimeout != null">
+                #{socketwaittimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketreadwritetimeout != null">
+                #{socketreadwritetimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketmaxpackagesize != null">
+                #{socketmaxpackagesize,jdbcType=INTEGER},
+            </if>
+            <if test="socketprotected != null">
+                #{socketprotected,jdbcType=INTEGER},
+            </if>
+            <if test="socketreconnecttime != null">
+                #{socketreconnecttime,jdbcType=VARCHAR},
+            </if>
+            <if test="socketrecvbuffersize != null">
+                #{socketrecvbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketsendbuffersize != null">
+                #{socketsendbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketconnectiontimeout != null">
+                #{socketconnectiontimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolserialize != null">
+                #{protocolserialize,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolencoder != null">
+                #{protocolencoder,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolcompresstype != null">
+                #{protocolcompresstype,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolprotocoltype != null">
+                #{protocolprotocoltype,jdbcType=VARCHAR},
+            </if>
+            <if test="serverdeadtimeout != null">
+                #{serverdeadtimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="degrade != null">
+                #{degrade,jdbcType=TINYINT},
+            </if>
+            <if test="servicemaxthreadcount != null">
+                #{servicemaxthreadcount,jdbcType=INTEGER},
+            </if>
+            <if test="reject != null">
+                #{reject,jdbcType=TINYINT},
+            </if>
+            <if test="granularity != null">
+                #{granularity,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bin.webmonitor.repository.domain.CallerUseage">
+        update t_calleruseage
+        <set>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                sid = #{sid,jdbcType=INTEGER},
+            </if>
+            <if test="gid != null">
+                gid = #{gid,jdbcType=INTEGER},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="socketbuffersize != null">
+                socketBufferSize = #{socketbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketminpoolsize != null">
+                socketMinPoolSize = #{socketminpoolsize,jdbcType=INTEGER},
+            </if>
+            <if test="socketmaxpoolsize != null">
+                socketMaxPoolSize = #{socketmaxpoolsize,jdbcType=INTEGER},
+            </if>
+            <if test="socketnagle != null">
+                socketNagle = #{socketnagle,jdbcType=VARCHAR},
+            </if>
+            <if test="socketautoshrink != null">
+                socketAutoShrink = #{socketautoshrink,jdbcType=VARCHAR},
+            </if>
+            <if test="socketsendtimeout != null">
+                socketSendTimeout = #{socketsendtimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketreceivetimeout != null">
+                socketReceiveTimeout = #{socketreceivetimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketwaittimeout != null">
+                socketWaitTimeout = #{socketwaittimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketreadwritetimeout != null">
+                socketReadWriteTimeout = #{socketreadwritetimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="socketmaxpackagesize != null">
+                socketMaxPackageSize = #{socketmaxpackagesize,jdbcType=INTEGER},
+            </if>
+            <if test="socketprotected != null">
+                socketProtected = #{socketprotected,jdbcType=INTEGER},
+            </if>
+            <if test="socketreconnecttime != null">
+                socketReconnectTime = #{socketreconnecttime,jdbcType=VARCHAR},
+            </if>
+            <if test="socketrecvbuffersize != null">
+                socketRecvBufferSize = #{socketrecvbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketsendbuffersize != null">
+                socketSendBufferSize = #{socketsendbuffersize,jdbcType=INTEGER},
+            </if>
+            <if test="socketconnectiontimeout != null">
+                socketConnectionTimeout = #{socketconnectiontimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolserialize != null">
+                protocolSerialize = #{protocolserialize,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolencoder != null">
+                protocolEncoder = #{protocolencoder,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolcompresstype != null">
+                protocolCompressType = #{protocolcompresstype,jdbcType=VARCHAR},
+            </if>
+            <if test="protocolprotocoltype != null">
+                protocolProtocolType = #{protocolprotocoltype,jdbcType=VARCHAR},
+            </if>
+            <if test="serverdeadtimeout != null">
+                serverDeadTimeout = #{serverdeadtimeout,jdbcType=VARCHAR},
+            </if>
+            <if test="degrade != null">
+                degrade = #{degrade,jdbcType=TINYINT},
+            </if>
+            <if test="servicemaxthreadcount != null">
+                serviceMaxThreadCount = #{servicemaxthreadcount,jdbcType=INTEGER},
+            </if>
+            <if test="reject != null">
+                reject = #{reject,jdbcType=TINYINT},
+            </if>
+            <if test="granularity != null">
+                granularity = #{granularity,jdbcType=TINYINT},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            updateTime = now()
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bin.webmonitor.repository.domain.CallerUseage">
+        UPDATE t_calleruseage
+        SET cid                     = #{cid,jdbcType=INTEGER},
+            sid                     = #{sid,jdbcType=INTEGER},
+            gid                     = #{gid,jdbcType=INTEGER},
+            quantity                = #{quantity,jdbcType=INTEGER},
+            description             = #{description,jdbcType=VARCHAR},
+            socketBufferSize        = #{socketbuffersize,jdbcType=INTEGER},
+            socketMinPoolSize       = #{socketminpoolsize,jdbcType=INTEGER},
+            socketMaxPoolSize       = #{socketmaxpoolsize,jdbcType=INTEGER},
+            socketNagle             = #{socketnagle,jdbcType=VARCHAR},
+            socketAutoShrink        = #{socketautoshrink,jdbcType=VARCHAR},
+            socketSendTimeout       = #{socketsendtimeout,jdbcType=VARCHAR},
+            socketReceiveTimeout    = #{socketreceivetimeout,jdbcType=VARCHAR},
+            socketWaitTimeout       = #{socketwaittimeout,jdbcType=VARCHAR},
+            socketReadWriteTimeout  = #{socketreadwritetimeout,jdbcType=VARCHAR},
+            socketMaxPackageSize    = #{socketmaxpackagesize,jdbcType=INTEGER},
+            socketProtected         = #{socketprotected,jdbcType=INTEGER},
+            socketReconnectTime     = #{socketreconnecttime,jdbcType=VARCHAR},
+            socketRecvBufferSize    = #{socketrecvbuffersize,jdbcType=INTEGER},
+            socketSendBufferSize    = #{socketsendbuffersize,jdbcType=INTEGER},
+            socketConnectionTimeout = #{socketconnectiontimeout,jdbcType=VARCHAR},
+            protocolSerialize       = #{protocolserialize,jdbcType=VARCHAR},
+            protocolEncoder         = #{protocolencoder,jdbcType=VARCHAR},
+            protocolCompressType    = #{protocolcompresstype,jdbcType=VARCHAR},
+            protocolProtocolType    = #{protocolprotocoltype,jdbcType=VARCHAR},
+            serverDeadTimeout       = #{serverdeadtimeout,jdbcType=VARCHAR},
+            degrade                 = #{degrade,jdbcType=TINYINT},
+            serviceMaxThreadCount   = #{servicemaxthreadcount,jdbcType=INTEGER},
+            reject                  = #{reject,jdbcType=TINYINT},
+            granularity             = #{granularity,jdbcType=TINYINT},
+            createTime              = #{createtime,jdbcType=TIMESTAMP},
+            updateTime              = #{updatetime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <update id="updateGroup">
+    	UPDATE t_calleruseage SET gid = #{gid} where sid = #{sid} and cid = #{cid}
+    </update>
+    <update id="updateReject">
+    	UPDATE t_calleruseage SET reject = #{reject} where sid = #{sid} and cid = #{cid}
+    </update>
+    <select id="selectCount" resultType="java.lang.Integer" parameterType="com.bin.webmonitor.repository.domain.CallerUseage">
+        select count(*) from t_calleruseage
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="cid != null">
+                and cid = #{cid,jdbcType=INTEGER}
+            </if>
+            <if test="sid != null">
+                and sid = #{sid,jdbcType=INTEGER}
+            </if>
+            <if test="gid != null">
+                and gid = #{gid,jdbcType=INTEGER}
+            </if>
+            <if test="quantity != null">
+                and quantity = #{quantity,jdbcType=INTEGER}
+            </if>
+            <if test="description != null">
+                and description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="socketbuffersize != null">
+                and socketBufferSize = #{socketbuffersize,jdbcType=INTEGER}
+            </if>
+            <if test="socketminpoolsize != null">
+                and socketMinPoolSize = #{socketminpoolsize,jdbcType=INTEGER}
+            </if>
+            <if test="socketmaxpoolsize != null">
+                and socketMaxPoolSize = #{socketmaxpoolsize,jdbcType=INTEGER}
+            </if>
+            <if test="socketnagle != null">
+                and socketNagle = #{socketnagle,jdbcType=VARCHAR}
+            </if>
+            <if test="socketautoshrink != null">
+                and socketAutoShrink = #{socketautoshrink,jdbcType=VARCHAR}
+            </if>
+            <if test="socketsendtimeout != null">
+                and socketSendTimeout = #{socketsendtimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="socketreceivetimeout != null">
+                and socketReceiveTimeout = #{socketreceivetimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="socketwaittimeout != null">
+                and socketWaitTimeout = #{socketwaittimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="socketreadwritetimeout != null">
+                and socketReadWriteTimeout = #{socketreadwritetimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="socketmaxpackagesize != null">
+                and socketMaxPackageSize = #{socketmaxpackagesize,jdbcType=INTEGER}
+            </if>
+            <if test="socketprotected != null">
+                and socketProtected = #{socketprotected,jdbcType=INTEGER}
+            </if>
+            <if test="socketreconnecttime != null">
+                and socketReconnectTime = #{socketreconnecttime,jdbcType=VARCHAR}
+            </if>
+            <if test="socketrecvbuffersize != null">
+                and socketRecvBufferSize = #{socketrecvbuffersize,jdbcType=INTEGER}
+            </if>
+            <if test="socketsendbuffersize != null">
+                and socketSendBufferSize = #{socketsendbuffersize,jdbcType=INTEGER}
+            </if>
+            <if test="socketconnectiontimeout != null">
+                and socketConnectionTimeout = #{socketconnectiontimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="protocolserialize != null">
+                and protocolSerialize = #{protocolserialize,jdbcType=VARCHAR}
+            </if>
+            <if test="protocolencoder != null">
+                and protocolEncoder = #{protocolencoder,jdbcType=VARCHAR}
+            </if>
+            <if test="protocolcompresstype != null">
+                and protocolCompressType = #{protocolcompresstype,jdbcType=VARCHAR}
+            </if>
+            <if test="protocolprotocoltype != null">
+                and protocolProtocolType = #{protocolprotocoltype,jdbcType=VARCHAR}
+            </if>
+            <if test="serverdeadtimeout != null">
+                and serverDeadTimeout = #{serverdeadtimeout,jdbcType=VARCHAR}
+            </if>
+            <if test="degrade != null">
+                and degrade = #{degrade,jdbcType=TINYINT}
+            </if>
+            <if test="servicemaxthreadcount != null">
+                and serviceMaxThreadCount = #{servicemaxthreadcount,jdbcType=INTEGER}
+            </if>
+            <if test="reject != null">
+                and reject = #{reject,jdbcType=TINYINT}
+            </if>
+            <if test="granularity != null">
+                and granularity = #{granularity,jdbcType=TINYINT}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCidSid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_calleruseage
+        where cid = #{cid,jdbcType=INTEGER} AND sid = #{sid,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectById" resultMap="BaseResultMap">
+        select cu.* from t_calleruseage cu join t_caller c on c.id = cu.cid
+        where cu.cid = #{cid,jdbcType=INTEGER} AND cu.sid = #{sid,jdbcType=INTEGER} order by createTime desc limit ${pageable.offset}, ${pageable.pageSize}
+    </select>
+    
+    <select id="count" resultMap="BaseResultMap">
+        select count(*) from t_calleruseage cu join t_caller c on c.id = cu.cid
+        where cu.cid = #{cid,jdbcType=INTEGER} AND cu.sid = #{sid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_calleruseage where 1 = 1
+        <if test="param1.id != null">
+            and id = #{param1.id,jdbcType=INTEGER}
+        </if>
+        <if test="param1.cid != null">
+            and cid = #{param1.cid,jdbcType=INTEGER}
+        </if>
+        <if test="param1.sid != null">
+            and sid = #{param1.sid,jdbcType=INTEGER}
+        </if>
+        <if test="param1.gid != null">
+            and gid = #{param1.gid,jdbcType=INTEGER}
+        </if>
+        <if test="param1.quantity != null">
+            and quantity = #{param1.quantity,jdbcType=INTEGER}
+        </if>
+        <if test="param1.description != null">
+            and description = #{param1.description,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketbuffersize != null">
+            and socketBufferSize = #{param1.socketbuffersize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketminpoolsize != null">
+            and socketMinPoolSize = #{param1.socketminpoolsize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketmaxpoolsize != null">
+            and socketMaxPoolSize = #{param1.socketmaxpoolsize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketnagle != null">
+            and socketNagle = #{param1.socketnagle,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketautoshrink != null">
+            and socketAutoShrink = #{param1.socketautoshrink,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketsendtimeout != null">
+            and socketSendTimeout = #{param1.socketsendtimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketreceivetimeout != null">
+            and socketReceiveTimeout = #{param1.socketreceivetimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketwaittimeout != null">
+            and socketWaitTimeout = #{param1.socketwaittimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketreadwritetimeout != null">
+            and socketReadWriteTimeout = #{param1.socketreadwritetimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketmaxpackagesize != null">
+            and socketMaxPackageSize = #{param1.socketmaxpackagesize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketprotected != null">
+            and socketProtected = #{param1.socketprotected,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketreconnecttime != null">
+            and socketReconnectTime = #{param1.socketreconnecttime,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.socketrecvbuffersize != null">
+            and socketRecvBufferSize = #{param1.socketrecvbuffersize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketsendbuffersize != null">
+            and socketSendBufferSize = #{param1.socketsendbuffersize,jdbcType=INTEGER}
+        </if>
+        <if test="param1.socketconnectiontimeout != null">
+            and socketConnectionTimeout = #{param1.socketconnectiontimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.protocolserialize != null">
+            and protocolSerialize = #{param1.protocolserialize,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.protocolencoder != null">
+            and protocolEncoder = #{param1.protocolencoder,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.protocolcompresstype != null">
+            and protocolCompressType = #{param1.protocolcompresstype,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.protocolprotocoltype != null">
+            and protocolProtocolType = #{param1.protocolprotocoltype,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.serverdeadtimeout != null">
+            and serverDeadTimeout = #{param1.serverdeadtimeout,jdbcType=VARCHAR}
+        </if>
+        <if test="param1.degrade != null">
+            and degrade = #{param1.degrade,jdbcType=TINYINT}
+        </if>
+        <if test="param1.servicemaxthreadcount != null">
+            and serviceMaxThreadCount = #{param1.servicemaxthreadcount,jdbcType=INTEGER}
+        </if>
+        <if test="param1.reject != null">
+            and reject = #{param1.reject,jdbcType=TINYINT}
+        </if>
+        <if test="param1.granularity != null">
+            and granularity = #{param1.granularity,jdbcType=TINYINT}
+        </if>
+        <if test="param1.createtime != null">
+            and createTime = #{param1.createtime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="param1.updatetime != null">
+            and updateTime = #{param1.updatetime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="null != param2 and param2.sort != null">
+            order by
+            <foreach collection="param2.sort" item="order" separator=",">
+                ${order.property} ${order.direction}
+            </foreach>
+        </if>
+        <if test="null != param2 and param2.offset >= 0 and param2.pageSize > 0">
+            limit ${param2.offset}, ${param2.pageSize}
+        </if>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_calleruseage
+    </select>
+
+</mapper>

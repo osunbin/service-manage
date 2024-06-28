@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bin.webmonitor.repository.dao.CircuitBreakMonitorDao">
+    <resultMap id="circuitBreakMonitorResultMap" type="com.bin.webmonitor.repository.domain.CircuitBreakMonitorPo">
+        <id column="id" property="id"/>
+        <result column="cid" property="cid"/>
+        <result column="sid" property="sid"/>
+        <result column="fid" property="fid"/>
+        <result column="ip" property="ip"/>
+        <result column="success_count" property="successCount"/>
+        <result column="fail_count" property="failCount"/>
+        <result column="timeout_count" property="timeoutCount"/>
+        <result column="status" property="status"/>
+        <result column="min_time" property="minTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectFields" >
+        id, cid, sid, fid, inet_ntoa(ip) as ip, success_count, fail_count, timeout_count, status, min_time, create_time, update_time
+    </sql>
+
+    <select id="queryCircuitBreakMonitors" resultMap="circuitBreakMonitorResultMap">
+        SELECT
+        <include refid="selectFields"/>
+        FROM t_circuit_break_monitor
+        WHERE 1=1
+        <if test="cid != null">
+            and cid = #{cid}
+        </if>
+        <if test="sid != null">
+            and sid = #{sid}
+        </if>
+        <if test="fid != null">
+            and fid = #{fid}
+        </if>
+        ORDER BY sid, fid
+        <if test="pageable != null">
+            <if test="pageable.offset >= 0 and pageable.pageSize > 0">
+                limit ${pageable.offset}, ${pageable.pageSize}
+            </if>
+        </if>
+    </select>
+
+    <select id="queryTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM t_circuit_break_monitor
+        WHERE cid = #{cid}
+        <if test="sid != null">
+            and sid = #{sid}
+        </if>
+        <if test="fid != null">
+            and fid = #{fid}
+        </if>
+    </select>
+
+    <insert id="batchSave" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_circuit_break_monitor
+        (
+            cid,
+            sid,
+            fid,
+            ip,
+            success_count,
+            fail_count,
+            timeout_count,
+            status,
+            min_time,
+            create_time
+        )VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.cid},
+            #{item.sid},
+            #{item.fid},
+            inet_aton(#{item.ip}),
+            #{item.successCount},
+            #{item.failCount},
+            #{item.timeoutCount},
+            #{item.status},
+            #{item.minTime},
+            now()
+        )
+        </foreach>
+        ON DUPLICATE KEY UPDATE success_count=VALUES(success_count),fail_count=VALUES(fail_count),timeout_count=VALUES(timeout_count),status=VALUES(status),min_time=VALUES(min_time)
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM t_circuit_break_monitor WHERE id = #{id}
+    </delete>
+
+</mapper>
